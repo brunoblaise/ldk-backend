@@ -140,6 +140,7 @@ CREATE TABLE syllabus(
      "course_category" VARCHAR(200) NOT NULL,
      "course_duration" VARCHAR(200) NOT NULL,
      "course_type" VARCHAR(200) NOT NULL,
+      "teacher_id" VARCHAR(255) NOT NULL,
      "created_at" TIMESTAMP NOT NULL DEFAULT NOW(),
      PRIMARY KEY("course_name"),
      unique("course_name")
@@ -161,7 +162,6 @@ CREATE TABLE syllabus(
 
 CREATE TABLE IF NOT EXISTS "open"(
    "id" SERIAL,
-  "quiz_question" VARCHAR(255) NOT NULL,
   "content" TEXT NOT NULL,
   "course_name" VARCHAR(255) NOT NULL,
   "created_at" TIMESTAMP NOT NULL DEFAULT NOW(),

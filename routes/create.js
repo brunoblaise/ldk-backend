@@ -230,10 +230,10 @@ router.post(
 
 router.post('/course', async (req, res) => {
   try {
-    const {name, level, category, duration, type} = req.body;
+    const {name, level, category, duration, type, teacher} = req.body;
     const newCourse = await pool.query(
-      'INSERT INTO courses (course_name, course_level, course_category, course_duration, course_type) VALUES ($1, $2, $3, $4,$5) RETURNING * ',
-      [name, level, category, duration, type],
+      'INSERT INTO courses (course_name, course_level, course_category, course_duration, course_type, teacher_id) VALUES ($1, $2, $3, $4,$5,$6) RETURNING * ',
+      [name, level, category, duration, type, teacher],
     );
     return res.json(newCourse.rows[0]);
   } catch (error) {
@@ -258,10 +258,10 @@ router.post('/quiz', async (req, res) => {
 
 router.post('/open', async (req, res) => {
   try {
-    const {question, content, teacher, name} = req.body;
+    const {content, teacher, name} = req.body;
     const newQuiz = await pool.query(
-      'INSERT INTO open (quiz_question, content, course_name, teacher_id) VALUES ($1, $2, $3, $4) RETURNING * ',
-      [question, content, name, teacher],
+      'INSERT INTO open (content, course_name, teacher_id) VALUES ($1, $2, $3) RETURNING * ',
+      [, content, name, teacher],
     );
     return res.json(newQuiz.rows[0]);
   } catch (error) {
