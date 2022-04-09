@@ -261,7 +261,7 @@ router.post('/open', async (req, res) => {
     const {content, teacher, name} = req.body;
     const newQuiz = await pool.query(
       'INSERT INTO open (content, course_name, teacher_id) VALUES ($1, $2, $3) RETURNING * ',
-      [, content, name, teacher],
+      [content, name, teacher],
     );
     return res.json(newQuiz.rows[0]);
   } catch (err) {
