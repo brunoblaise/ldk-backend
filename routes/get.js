@@ -246,7 +246,7 @@ router.get('/marks', async (req, res) => {
   }
 });
 
-router.get('/course', async (req, res) => {
+router.get('/courses', async (req, res) => {
   try {
     const user = await pool.query('SELECT * from  courses');
     res.json(user.rows);
