@@ -236,7 +236,7 @@ router.post('/course', async (req, res) => {
       [name, level, category, duration, type, teacher],
     );
     return res.json(newCourse.rows[0]);
-  } catch (error) {
+  } catch (err) {
     console.error(err.message);
     res.status(500).send('Server error');
   }
@@ -250,7 +250,7 @@ router.post('/quiz', async (req, res) => {
       [question, choices, answer, name, teacher],
     );
     return res.json(newQuiz.rows[0]);
-  } catch (error) {
+  } catch (err) {
     console.error(err.message);
     res.status(500).send('Server error');
   }
@@ -264,7 +264,7 @@ router.post('/open', async (req, res) => {
       [, content, name, teacher],
     );
     return res.json(newQuiz.rows[0]);
-  } catch (error) {
+  } catch (err) {
     console.error(err.message);
     res.status(500).send('Server error');
   }
@@ -278,7 +278,7 @@ router.post('/answers', async (req, res) => {
       [question, content, teacher, name],
     );
     return res.json(newQuiz.rows[0]);
-  } catch (error) {
+  } catch (err) {
     console.error(err.message);
     res.status(500).send('Server error');
   }
@@ -292,7 +292,7 @@ router.post('/marks', async (req, res) => {
       [marks, name, feedback, student, teacher],
     );
     return res.json(newQuiz.rows[0]);
-  } catch (error) {
+  } catch (err) {
     console.error(err.message);
     res.status(500).send('Server error');
   }
