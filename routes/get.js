@@ -246,4 +246,13 @@ router.get('/marks', async (req, res) => {
   }
 });
 
+router.get('/course', async (req, res) => {
+  try {
+    const user = await pool.query('SELECT * from  courses');
+    res.json(user.rows);
+  } catch (err) {
+    console.error(err.message);
+  }
+});
+
 module.exports = router;

@@ -232,7 +232,7 @@ router.post('/course', async (req, res) => {
   try {
     const {name, level, category, duration, type} = req.body;
     const newCourse = await pool.query(
-      'INSERT INTO course (course_name, course_level, course_category, course_duration, course_type) VALUES ($1, $2, $3, $4,$5) RETURNING * ',
+      'INSERT INTO courses (course_name, course_level, course_category, course_duration, course_type) VALUES ($1, $2, $3, $4,$5) RETURNING * ',
       [name, level, category, duration, type],
     );
     return res.json(newCourse.rows[0]);
