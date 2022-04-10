@@ -209,7 +209,7 @@ router.get('/challenge', async (req, res) => {
 router.get('/quiz', async (req, res) => {
   try {
     const user = await pool.query(
-      'SELECT * from quiz JOIN courses ON quiz.course_name = course.course_name',
+      'SELECT * from quiz JOIN courses ON quiz.course_name = courses.course_name',
     );
     res.json(user.rows);
   } catch (err) {
@@ -220,7 +220,7 @@ router.get('/quiz', async (req, res) => {
 router.get('/open', async (req, res) => {
   try {
     const user = await pool.query(
-      'SELECT * from open JOIN courses ON open.course_name = course.course_name',
+      'SELECT * from open JOIN courses ON open.course_name = courses.course_name',
     );
     res.json(user.rows);
   } catch (err) {

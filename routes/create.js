@@ -87,7 +87,7 @@ sendMail()
   .catch((error) => console.log(error.message));
 
 router.post('/work', upload.single('recfile'), async (req, res) => {
-  const {classe, title, written, summary, email} = req.body;
+  const {classe, title,  summary, email} = req.body;
 
   try {
     const result = await cloudinary.uploader.upload(req.file.path, {
@@ -99,8 +99,8 @@ router.post('/work', upload.single('recfile'), async (req, res) => {
     const recfile = result.url;
 
     let newNotes = await pool.query(
-      'INSERT INTO work (class_year_content, work_title,written, work_note, work_url, teacher_email) VALUES ($1, $2, $3,$4,$5,$6) RETURNING *',
-      [classe, title, written, summary, recfile, email],
+      'INSERT INTO work (class_year_content, work_title, work_note, work_url, teacher_email) VALUES ($1, $2, $3,$4,$5) RETURNING *',
+      [classe, title,summary, recfile, email],
     );
     const emails = (
       await pool.query('SELECT student_email FROM student')
@@ -118,7 +118,7 @@ router.post('/work', upload.single('recfile'), async (req, res) => {
 });
 router.post('/notes', upload.single('recfile'), async (req, res) => {
   try {
-    const {classe, email, title, written, summary} = req.body;
+    const {classe, email, title, summary} = req.body;
     const result = await cloudinary.uploader.upload(
       req.file.path === undefined ? '' : req.file.path,
       {
@@ -131,8 +131,8 @@ router.post('/notes', upload.single('recfile'), async (req, res) => {
     const recfile = result.url;
 
     let newNotes = await pool.query(
-      'INSERT INTO notes (class_year_content,teacher_email, notes_title,written, short_note, notes_url ) VALUES ($1, $2, $3,$4,$5, $6) RETURNING *',
-      [classe, email, title, written, summary, recfile],
+      'INSERT INTO notes (class_year_content,teacher_email, notes_title, short_note, notes_url ) VALUES ($1, $2, $3,$4,$5) RETURNING *',
+      [classe, email, title,  summary, recfile],
     );
     const emails = (
       await pool.query('SELECT student_email FROM student')
@@ -272,10 +272,10 @@ router.post('/open', async (req, res) => {
 
 router.post('/answers', async (req, res) => {
   try {
-    const {question, content, teacher, name} = req.body;
+    const {course, content, teacher, name} = req.body;
     const newQuiz = await pool.query(
-      'INSERT INTO answers (course_name, content, teacher_id, student_email) VALUES ($1, $2, $3, $4) RETURNING * ',
-      [question, content, teacher, name],
+      'INSERT INTO answers (course_name, content, teacher_email, student_email) VALUES ($1, $2, $3, $4) RETURNING * ',
+      [course, content, teacher, name],
     );
     return res.json(newQuiz.rows[0]);
   } catch (err) {

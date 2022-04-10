@@ -4,8 +4,7 @@ CREATE TABLE notes(
   notes_id uuid DEFAULT uuid_generate_v4(),
   class_year_content VARCHAR(100) NOT NULL,
   teacher_email VARCHAR(100) NOT NULL,
-  notes_title VARCHAR(100) NOT NULL,
-  written  TEXT NOT NULL,
+  notes_title VARCHAR(100) NOT NULL UNIQUE,
   short_note VARCHAR(300) NOT NULL,
   timestamp timestamp default current_timestamp,
   notes_url  VARCHAR(100) NOT NULL,
@@ -16,8 +15,7 @@ CREATE TABLE notes(
 CREATE TABLE work(
   work_id uuid DEFAULT uuid_generate_v4(),
   class_year_content VARCHAR(100) NOT NULL,
-  work_title VARCHAR(100) NOT NULL,
-  written  TEXT NOT NULL,
+  work_title VARCHAR(100) NOT NULL UNIQUE,
   work_note VARCHAR(300) NOT NULL,
   timestamp timestamp default current_timestamp,
   work_url  VARCHAR(100) NOT NULL,
@@ -175,7 +173,7 @@ CREATE TABLE IF NOT EXISTS "answers"(
   "course_name" VARCHAR(255) NOT NULL,
   "content" TEXT NOT NULL,
   "created_at" TIMESTAMP NOT NULL DEFAULT NOW(),
-  "teacher_id" VARCHAR(255) NOT NULL,
+  "teacher_email" VARCHAR(255) NOT NULL,
   "student_email" VARCHAR(255) NOT NULL
 );
 CREATE TABLE IF NOT EXISTS "marks"(
