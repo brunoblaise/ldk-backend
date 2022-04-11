@@ -139,12 +139,12 @@ router.post('/loginS', async (req, res) => {
 
 router.post('/updateProfileT/:id', async (req, res) => {
   try {
-    const {fname, lname, parent, gender, age, phone, bio} = req.body;
+    const {fname, lname,  gender, age, phone, bio} = req.body;
     const {id} = req.params;
 
     let newUser = await pool.query(
       'UPDATE teacher SET teacher_fname=$1, teacher_lname =$2, parent=$3,teacher_gender =$4,  teacher_age =$5, teacher_phonem=$6, teacher_bio=$7 WHERE teacher_id = $8',
-      [fname, lname, parent, gender, age, phone, bio, id],
+      [fname, lname, gender, age, phone, bio, id],
     );
 
     res.json(newUser);

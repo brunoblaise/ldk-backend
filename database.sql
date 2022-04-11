@@ -138,7 +138,7 @@ CREATE TABLE syllabus(
      "course_category" VARCHAR(200) NOT NULL,
      "course_duration" VARCHAR(200) NOT NULL,
      "course_type" VARCHAR(200) NOT NULL,
-      "teacher_id" VARCHAR(255) NOT NULL,
+     "teacher_email" VARCHAR(255) NOT NULL,
      "created_at" TIMESTAMP NOT NULL DEFAULT NOW(),
      PRIMARY KEY("course_name"),
      unique("course_name")
@@ -153,7 +153,7 @@ CREATE TABLE syllabus(
   "quiz_answer"  VARCHAR(255) NOT NULL,
   "course_name" VARCHAR(255) NOT NULL,
   "created_at" TIMESTAMP NOT NULL DEFAULT NOW(),
-  "teacher_id" VARCHAR(255) NOT NULL,
+  "teacher_email" VARCHAR(255) NOT NULL,
   FOREIGN KEY(course_name) REFERENCES courses(course_name) ON DELETE CASCADE
  
 );
@@ -163,7 +163,7 @@ CREATE TABLE IF NOT EXISTS "open"(
   "content" TEXT NOT NULL,
   "course_name" VARCHAR(255) NOT NULL,
   "created_at" TIMESTAMP NOT NULL DEFAULT NOW(),
-  "teacher_id" VARCHAR(255) NOT NULL,
+  "teacher_email" VARCHAR(255) NOT NULL,
   FOREIGN KEY(course_name) REFERENCES courses(course_name) ON DELETE CASCADE
 );
 
@@ -172,6 +172,7 @@ CREATE TABLE IF NOT EXISTS "answers"(
    "id" SERIAL,
   "course_name" VARCHAR(255) NOT NULL,
   "content" TEXT NOT NULL,
+  "level" VARCHAR(255) NOT NULL,
   "created_at" TIMESTAMP NOT NULL DEFAULT NOW(),
   "teacher_email" VARCHAR(255) NOT NULL,
   "student_email" VARCHAR(255) NOT NULL
@@ -181,6 +182,6 @@ CREATE TABLE IF NOT EXISTS "marks"(
     "marks" VARCHAR(20) NOT NULL,
     "course_name" VARCHAR(255) NOT NULL,
     "feedback" VARCHAR(255) NOT NULL,
-    "student_id" VARCHAR(255) NOT NULL,
-    "teacher_id" VARCHAR(255) NOT NULL
+    "student_email" VARCHAR(255) NOT NULL,
+    "teacher_email" VARCHAR(255) NOT NULL
     );

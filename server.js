@@ -11,7 +11,7 @@ const Interface = require('./Interface/Interface');
 const server = http.createServer(app);
 const io = require('socket.io')(server, {
   cors: {
-    origin: '*',
+    origin: "https://cxrgo.ml",
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
   },
 });

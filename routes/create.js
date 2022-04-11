@@ -87,7 +87,7 @@ sendMail()
   .catch((error) => console.log(error.message));
 
 router.post('/work', upload.single('recfile'), async (req, res) => {
-  const {classe, title,  summary, email} = req.body;
+  const {classe, title, summary, email} = req.body;
 
   try {
     const result = await cloudinary.uploader.upload(req.file.path, {
@@ -100,7 +100,7 @@ router.post('/work', upload.single('recfile'), async (req, res) => {
 
     let newNotes = await pool.query(
       'INSERT INTO work (class_year_content, work_title, work_note, work_url, teacher_email) VALUES ($1, $2, $3,$4,$5) RETURNING *',
-      [classe, title,summary, recfile, email],
+      [classe, title, summary, recfile, email],
     );
     const emails = (
       await pool.query('SELECT student_email FROM student')
@@ -132,7 +132,7 @@ router.post('/notes', upload.single('recfile'), async (req, res) => {
 
     let newNotes = await pool.query(
       'INSERT INTO notes (class_year_content,teacher_email, notes_title, short_note, notes_url ) VALUES ($1, $2, $3,$4,$5) RETURNING *',
-      [classe, email, title,  summary, recfile],
+      [classe, email, title, summary, recfile],
     );
     const emails = (
       await pool.query('SELECT student_email FROM student')
@@ -232,7 +232,7 @@ router.post('/course', async (req, res) => {
   try {
     const {name, level, category, duration, type, teacher} = req.body;
     const newCourse = await pool.query(
-      'INSERT INTO courses (course_name, course_level, course_category, course_duration, course_type, teacher_id) VALUES ($1, $2, $3, $4,$5,$6) RETURNING * ',
+      'INSERT INTO courses (course_name, course_level, course_category, course_duration, course_type, teacher_email) VALUES ($1, $2, $3, $4,$5,$6) RETURNING * ',
       [name, level, category, duration, type, teacher],
     );
     return res.json(newCourse.rows[0]);
@@ -246,7 +246,7 @@ router.post('/quiz', async (req, res) => {
   try {
     const {question, choices, answer, teacher, name} = req.body;
     const newQuiz = await pool.query(
-      'INSERT INTO quiz (quiz_question, quiz_choice, quiz_answer, course_name, teacher_id) VALUES ($1, $2, $3, $4,$5) RETURNING * ',
+      'INSERT INTO quiz (quiz_question, quiz_choice, quiz_answer, course_name, teacher_email) VALUES ($1, $2, $3, $4,$5) RETURNING * ',
       [question, choices, answer, name, teacher],
     );
     return res.json(newQuiz.rows[0]);
@@ -260,7 +260,7 @@ router.post('/open', async (req, res) => {
   try {
     const {content, teacher, name} = req.body;
     const newQuiz = await pool.query(
-      'INSERT INTO open (content, course_name, teacher_id) VALUES ($1, $2, $3) RETURNING * ',
+      'INSERT INTO open (content, course_name, teacher_email) VALUES ($1, $2, $3) RETURNING * ',
       [content, name, teacher],
     );
     return res.json(newQuiz.rows[0]);
@@ -272,10 +272,10 @@ router.post('/open', async (req, res) => {
 
 router.post('/answers', async (req, res) => {
   try {
-    const {course, content, teacher, name} = req.body;
+    const {course,level, content, teacher, name} = req.body;
     const newQuiz = await pool.query(
-      'INSERT INTO answers (course_name, content, teacher_email, student_email) VALUES ($1, $2, $3, $4) RETURNING * ',
-      [course, content, teacher, name],
+      'INSERT INTO answers (course_name, content,level, teacher_email, student_email) VALUES ($1, $2, $3, $4) RETURNING * ',
+      [course, level, content, teacher, name],
     );
     return res.json(newQuiz.rows[0]);
   } catch (err) {
@@ -288,7 +288,7 @@ router.post('/marks', async (req, res) => {
   try {
     const {marks, name, feedback, student, teacher} = req.body;
     const newQuiz = await pool.query(
-      'INSERT INTO marks (marks, course_name, feedback, student_id teacher_id) VALUES ($1, $2, $3, $4,$5) RETURNING * ',
+      'INSERT INTO marks (marks, course_name, feedback, student_email,teacher_email) VALUES ($1, $2, $3, $4,$5) RETURNING * ',
       [marks, name, feedback, student, teacher],
     );
     return res.json(newQuiz.rows[0]);
