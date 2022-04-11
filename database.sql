@@ -185,3 +185,11 @@ CREATE TABLE IF NOT EXISTS "marks"(
     "student_email" VARCHAR(255) NOT NULL,
     "teacher_email" VARCHAR(255) NOT NULL
     );
+
+
+CREATE TABLE IF NOT EXISTS "logs"(
+    "id"SERIAL,
+    "rfid" VARCHAR(400) NOT NULL,
+    "created_at" TIMESTAMP NOT NULL DEFAULT NOW()
+   
+    );
