@@ -274,7 +274,7 @@ router.post('/answers', async (req, res) => {
   try {
     const {course,level, content, teacher, name} = req.body;
     const newQuiz = await pool.query(
-      'INSERT INTO answers (course_name, content,level, teacher_email, student_email) VALUES ($1, $2, $3, $4) RETURNING * ',
+      'INSERT INTO answers (course_name, content,level, teacher_email, student_email) VALUES ($1, $2, $3, $4,$5) RETURNING * ',
       [course, level, content, teacher, name],
     );
     return res.json(newQuiz.rows[0]);
