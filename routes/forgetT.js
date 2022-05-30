@@ -38,8 +38,8 @@ async function sendMail(email, link) {
       from: 'college du christ roi <brunoblaise94@gmail.com>',
       to: email,
       subject: 'Reset password',
-      text: 'Hello from cxr now let reset password if you did not request it just ignore it',
-      html: `Hello from cxr  <br> Forgot your password? It's okay -- we haven't forgotten you! Click on the following link to reset your password.<p>${link} </p> If clicking doesn't seem to work, you can copy and paste the link into your browser's address bar.
+      text: 'Hello  now let reset password if you did not request it just ignore it',
+      html: `Hello   <br> Forgot your password? It's okay -- we haven't forgotten you! Click on the following link to reset your password.<p>${link} </p> If clicking doesn't seem to work, you can copy and paste the link into your browser's address bar.
 
       If you didn't ask to reset your password, you can just ignore this email.`,
     };
