@@ -230,10 +230,10 @@ router.post(
 
 router.post('/course', async (req, res) => {
   try {
-    const {name, level, category, duration, type, teacher} = req.body;
+    const {name,  closure, level, category, duration, type, teacher} = req.body;
     const newCourse = await pool.query(
-      'INSERT INTO courses (course_name, course_level, course_category, course_duration, course_type, teacher_email) VALUES ($1, $2, $3, $4,$5,$6) RETURNING * ',
-      [name, level, category, duration, type, teacher],
+      'INSERT INTO courses (course_name, course_course, course_level, course_category, course_duration, course_type, teacher_email) VALUES ($1, $2, $3, $4,$5,$6,$7) RETURNING * ',
+      [name,  closure, level, category, duration, type, teacher],
     );
     return res.json(newCourse.rows[0]);
   } catch (err) {
@@ -292,6 +292,23 @@ router.post('/marks', async (req, res) => {
       [marks, name, feedback, student, teacher],
     );
     return res.json(newQuiz.rows[0]);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server error');
+  }
+});
+
+router.post('/course/:id', async (req, res) => {
+  try {
+    const {closure} = req.body;
+    const {id} = req.params;
+
+    let newUser = await pool.query(
+      'UPDATE courses SET course_course = $1 WHERE course_name = $2',
+      [closure, id],
+    );
+
+    res.json(newUser);
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Server error');
