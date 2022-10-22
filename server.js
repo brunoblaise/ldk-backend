@@ -26,6 +26,8 @@ app.use(express.urlencoded({extended: false}));
 app.use('/uploads', express.static('uploads'));
 app.use('/create', require('./routes/register'));
 app.use('/create', require('./routes/rfid'));
+
+app.use('/ocr', require('./routes/ocr'));
 app.use('/create', require('./routes/create'));
 app.use('/get', require('./routes/get'));
 app.use('/res', require('./routes/forget'));
