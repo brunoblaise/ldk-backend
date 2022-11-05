@@ -270,6 +270,20 @@ router.post('/open', async (req, res) => {
   }
 });
 
+router.post('/courseName', async (req, res) => {
+  try {
+    const {name} = req.body;
+    const newQuiz = await pool.query(
+      'INSERT INTO name (name) VALUES ($1) RETURNING * ',
+      [name],
+    );
+    return res.json(newQuiz.rows[0]);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server error');
+  }
+});
+
 router.post('/answers', async (req, res) => {
   try {
     const {course,level, content, teacher, name} = req.body;
