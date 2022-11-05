@@ -78,6 +78,17 @@ router.get('/work', async (req, res) => {
   } catch (err) {
     console.error(err.message);
   }
+
+});
+
+router.get('/className', async (req, res) => {
+  try {
+    const user = await pool.query('SELECT * from name');
+    res.json(user.rows);
+  } catch (err) {
+    console.error(err.message);
+  }
+  
 });
 
 router.get('/work/:id', async (req, res) => {
