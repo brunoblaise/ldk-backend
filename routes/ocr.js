@@ -22,7 +22,6 @@ router.post('/', async (req, res) => {
     upload(req, res, async (err) => {
       fs.readFile(`./uploads/${req.file.originalname}`, (err, data) => {
         if (err) return console.log('This is your error', err);
-
         worker
           .recognize(data, 'eng', {tessjs_create_pdf: '1'})
           .progress((p) => {
