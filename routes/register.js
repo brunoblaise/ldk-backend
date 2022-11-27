@@ -187,7 +187,7 @@ router.post('/registerT', uploaders, async (req, res) => {
       [email],
     );
     if(check.rows.length === 0){
-      return res.status(401).json('Student not found 🤦‍♂️🤦‍♂️');
+      return res.status(401).json('Teacher not found 🤦‍♂️🤦‍♂️');
   
     }
     if (user.rows.length > 0) {
