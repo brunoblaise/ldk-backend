@@ -68,14 +68,23 @@ router.post('/registerS', uploaders, async (req, res) => {
 
     const photo = result.url;
 
+    const check = await pool.query(
+      'SELECT * FROM schoolS WHERE names = $1',
+      [email],
+    );
+
     const user = await pool.query(
       'SELECT * FROM student WHERE student_email = $1',
       [email],
     );
+  if(check.rows.length === 0){
+    return res.status(401).json('Student not found 🤦‍♂️🤦‍♂️');
 
+  }
     if (user.rows.length > 0) {
       return res.status(401).json('User already exist!');
     }
+    
 
     const salt = await bcrypt.genSalt(10);
     const bcryptPassword = await bcrypt.hash(password, salt);
@@ -168,12 +177,19 @@ router.post('/registerT', uploaders, async (req, res) => {
     });
 
     const photo = result.url;
+    const check = await pool.query(
+      'SELECT * FROM schoolT WHERE names = $1',
+      [email],
+    );
 
     const user = await pool.query(
       'SELECT * FROM teacher WHERE teacher_email = $1',
       [email],
     );
-
+    if(check.rows.length === 0){
+      return res.status(401).json('Student not found 🤦‍♂️🤦‍♂️');
+  
+    }
     if (user.rows.length > 0) {
       return res.status(401).json('User already exist!');
     }

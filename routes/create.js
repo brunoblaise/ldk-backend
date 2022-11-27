@@ -19,7 +19,7 @@ const storage = multer.diskStorage({
 });
 const upload = multer({
   storage: storage,
-  limits: {fileSize: 1000000000000000000000},
+  limits: {fileSize: 1000},
   fileFilter: function (req, file, cb) {
     checkFileType(file, cb);
   },
@@ -286,10 +286,10 @@ router.post('/courseName', async (req, res) => {
 
 router.post('/answers', async (req, res) => {
   try {
-    const {course,level, content, teacher, name} = req.body;
+    const {course,level, content, teacher, name, status} = req.body;
     const newQuiz = await pool.query(
-      'INSERT INTO answers (course_name, level,content, teacher_email, student_email) VALUES ($1, $2, $3, $4,$5) RETURNING * ',
-      [course, level, content, teacher, name],
+      'INSERT INTO answers (course_name, level,content, teacher_email, student_email,status) VALUES ($1, $2, $3, $4,$5,$6) RETURNING * ',
+      [course, level, content, teacher, name, status],
     );
     return res.json(newQuiz.rows[0]);
   } catch (err) {

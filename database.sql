@@ -144,6 +144,7 @@ CREATE TABLE answers(
   id uuid DEFAULT uuid_generate_v4(),
   created_at timestamp default current_timestamp,
   level VARCHAR(100) NOT NULL,
+  status VARCHAR(100) NOT NULL,
   student_email VARCHAR(100) NOT NULL,
   teacher_email VARCHAR(200) NOT NULL,
 );
@@ -155,5 +156,18 @@ CREATE TABLE marks(
   marks VARCHAR(255) NOT NULL,
   student_email VARCHAR(100) NOT NULL,
   teacher_email VARCHAR(100) NOT NULL,
+  PRIMARY KEY(id)
+);
+
+
+CREATE TABLE schoolS(
+  id uuid DEFAULT uuid_generate_v4(),
+  names VARCHAR(255),
+  PRIMARY KEY(id)
+);
+
+CREATE TABLE schoolT(
+  id uuid DEFAULT uuid_generate_v4(),
+  names VARCHAR(255),
   PRIMARY KEY(id)
 );
