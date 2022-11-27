@@ -147,6 +147,7 @@ CREATE TABLE answers(
   status VARCHAR(100) NOT NULL,
   student_email VARCHAR(100) NOT NULL,
   teacher_email VARCHAR(200) NOT NULL,
+  PRIMARY KEY(id)
 );
 
 CREATE TABLE marks(
