@@ -26,12 +26,12 @@ router.post('/updateClass/:id', async (req, res) => {
 
 router.post('/updateProfile/:id', async (req, res) => {
   try {
-    const {fname, lname, parent, gender, age, phone, bio} = req.body;
+    const {fname, lname,  gender, age, phone, bio} = req.body;
     const {id} = req.params;
 
     let newUser = await pool.query(
-      'UPDATE student SET  student_fname=$1, student_lname =$2, parent=$3,student_gender =$4,  student_age =$5, student_phonem=$6, student_bio=$7 WHERE student_id = $8',
-      [fname, lname, parent, gender, age, phone, bio, id],
+      'UPDATE student SET  student_fname=$1, student_lname =$2, student_gender =$3,  student_age =$4, student_phonem=$5, student_bio=$6 WHERE student_id = $7',
+      [fname, lname,  gender, age, phone, bio, id],
     );
 
     res.json(newUser);
@@ -49,7 +49,7 @@ router.post('/registerS', uploaders, async (req, res) => {
       type,
       hide,
       lname,
-      parent,
+  
       gender,
       email,
       password,
@@ -90,14 +90,14 @@ router.post('/registerS', uploaders, async (req, res) => {
     const bcryptPassword = await bcrypt.hash(password, salt);
 
     let newUser = await pool.query(
-      'INSERT INTO student (class_student,  student_type, hide, student_fname, student_lname, parent,student_gender,student_email, student_password, student_photo,student_age, student_phonem, student_bio) VALUES ($1, $2, $3,$4 ,$5,$6,$7,$8,$9,$10, $11, $12,$13) RETURNING *',
+      'INSERT INTO student (class_student,  student_type, hide, student_fname, student_lname, student_gender,student_email, student_password, student_photo,student_age, student_phonem, student_bio) VALUES ($1, $2, $3,$4 ,$5,$6,$7,$8,$9,$10, $11, $12) RETURNING *',
       [
         classe,
         type,
         hide,
         fname,
         lname,
-        parent,
+    
         gender,
         email,
         bcryptPassword,
@@ -152,7 +152,7 @@ router.post('/updateProfileT/:id', async (req, res) => {
     const {id} = req.params;
 
     let newUser = await pool.query(
-      'UPDATE teacher SET teacher_fname=$1, teacher_lname =$2, parent=$3,teacher_gender =$4,  teacher_age =$5, teacher_phonem=$6, teacher_bio=$7 WHERE teacher_id = $8',
+      'UPDATE teacher SET teacher_fname=$1, teacher_lname =$2, teacher_gender =$3,  teacher_age =$4, teacher_phonem=$5, teacher_bio=$6 WHERE teacher_id = $7',
       [fname, lname, gender, age, phone, bio, id],
     );
 
