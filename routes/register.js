@@ -253,75 +253,69 @@ router.post('/loginT', async (req, res) => {
   }
 });
 
-router.post('/registerP', uploaders, async (req, res) => {
+router.post('/student', async (req, res) => {
   try {
-    const {fname, lname, hide, gender, email, password, phone, bio} = req.body;
+    const {names} = req.body;
 
-    const ti = req.file.path;
+  
 
-    const result = await cloudinary.uploader.upload(ti, {
-      width: 70,
-      height: 53,
-      crop: 'scale',
-    });
-
-    const photo = result.url;
-
-    const user = await pool.query(
-      'SELECT * FROM teacher WHERE parent_email = $1',
+    const check = await pool.query(
+      'SELECT * FROM schoolS WHERE names = $1',
       [email],
     );
 
-    if (user.rows.length > 0) {
-      return res.status(401).json('User already exist!');
-    }
+  if(check.rows.length > 0){
+    return res.status(401).json('Student found 🤦‍♂️🤦‍♂️');
 
-    const salt = await bcrypt.genSalt(10);
-    const bcryptPassword = await bcrypt.hash(password, salt);
+  }
+
 
     let newUser = await pool.query(
-      'INSERT INTO parent (parent_fname, parent_lname, hide, parent_gender,parent_email, parent_password, parent_photo,parent_phonem, parent_bio) VALUES ($1, $2, $3,$4 ,$5,$6,$7,$8) RETURNING *',
-      [fname, lname, hide, gender, email, bcryptPassword, photo, phone, bio],
+      'INSERT INTO schoolS (names) VALUES ($1) RETURNING *',
+      [
+      names
+      ],
     );
 
-    const jwtToken = jwtGenerator(newUser.rows[0].parent_id);
-
-    return res.json({jwtToken});
+    
+    return res.status(200).json(newUser);
   } catch (err) {
     console.error(err.message);
     res.status(500).json('Server error');
   }
 });
 
-router.post('/loginP', async (req, res) => {
-  const {email, password} = req.body;
-
+router.post('/teacher', async (req, res) => {
   try {
-    const user = await pool.query(
-      'SELECT * FROM parent WHERE parent_email = $1',
+    const {names} = req.body;
+
+  
+
+    const check = await pool.query(
+      'SELECT * FROM schoolT WHERE names = $1',
       [email],
     );
 
-    if (user.rows.length === 0) {
-      return res.status(401).json('Invalid email');
-    }
+  if(check.rows.length > 0){
+    return res.status(401).json('Teacher found 🤦‍♂️🤦‍♂️');
 
-    const validPassword = await bcrypt.compare(
-      password,
-      user.rows[0].parent_password,
+  }
+
+
+    let newUser = await pool.query(
+      'INSERT INTO schoolS (names) VALUES ($1) RETURNING *',
+      [
+      names
+      ],
     );
 
-    if (!validPassword) {
-      return res.status(401).json('Invalid password');
-    }
-    const jwtToken = jwtGenerator(user.rows[0].parent_id);
-    return res.json({jwtToken});
+    
+    return res.status(200).json(newUser);
   } catch (err) {
     console.error(err.message);
-    res.status(500).send('Server error');
+    res.status(500).json('Server error');
   }
 });
-
 router.post('/verify', authorize, (req, res) => {
   try {
     res.json(true);
