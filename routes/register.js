@@ -261,7 +261,7 @@ router.post('/student', async (req, res) => {
 
     const check = await pool.query(
       'SELECT * FROM schoolS WHERE names = $1',
-      [email],
+      [name],
     );
 
   if(check.rows.length > 0){
@@ -293,7 +293,7 @@ router.post('/teacher', async (req, res) => {
 
     const check = await pool.query(
       'SELECT * FROM schoolT WHERE names = $1',
-      [email],
+      [names],
     );
 
   if(check.rows.length > 0){
