@@ -261,7 +261,7 @@ router.post('/student', async (req, res) => {
 
     const check = await pool.query(
       'SELECT * FROM schoolS WHERE names = $1',
-      [name],
+      [names],
     );
 
   if(check.rows.length > 0){
@@ -278,7 +278,8 @@ router.post('/student', async (req, res) => {
     );
 
     
-    return res.status(200).json(newUser);
+    return res.json(newUser.rows[0]);
+  
   } catch (err) {
     console.error(err.message);
     res.status(500).json('Server error');
@@ -310,7 +311,7 @@ router.post('/teacher', async (req, res) => {
     );
 
     
-    return res.status(200).json(newUser);
+    return res.json(newUser.rows[0]);
   } catch (err) {
     console.error(err.message);
     res.status(500).json('Server error');
