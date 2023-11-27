@@ -68,19 +68,12 @@ router.post('/registerS', uploaders, async (req, res) => {
 
     const photo = result.url;
 
-    const check = await pool.query(
-      'SELECT * FROM schoolS WHERE names = $1',
-      [email],
-    );
-
+   
     const user = await pool.query(
       'SELECT * FROM student WHERE student_email = $1',
       [email],
     );
-  if(check.rows.length === 0){
-    return res.status(401).json('Student not found 🤦‍♂️🤦‍♂️');
 
-  }
     if (user.rows.length > 0) {
       return res.status(401).json('User already exist!');
     }
@@ -177,19 +170,13 @@ router.post('/registerT', uploaders, async (req, res) => {
     });
 
     const photo = result.url;
-    const check = await pool.query(
-      'SELECT * FROM schoolT WHERE names = $1',
-      [email],
-    );
+   
 
     const user = await pool.query(
       'SELECT * FROM teacher WHERE teacher_email = $1',
       [email],
     );
-    if(check.rows.length === 0){
-      return res.status(401).json('Teacher not found 🤦‍♂️🤦‍♂️');
-  
-    }
+   
     if (user.rows.length > 0) {
       return res.status(401).json('User already exist!');
     }
@@ -253,70 +240,8 @@ router.post('/loginT', async (req, res) => {
   }
 });
 
-router.post('/student', async (req, res) => {
-  try {
-    const {names} = req.body;
-
-  
-
-    const check = await pool.query(
-      'SELECT * FROM schoolS WHERE names = $1',
-      [names],
-    );
-
-  if(check.rows.length > 0){
-    return res.status(401).json('Student found 🤦‍♂️🤦‍♂️');
-
-  }
 
 
-    let newUser = await pool.query(
-      'INSERT INTO schoolS (names) VALUES ($1) RETURNING *',
-      [
-      names
-      ],
-    );
-
-    
-    return res.json(newUser.rows[0]);
-  
-  } catch (err) {
-    console.error(err.message);
-    res.status(500).json('Server error');
-  }
-});
-
-router.post('/teacher', async (req, res) => {
-  try {
-    const {names} = req.body;
-
-  
-
-    const check = await pool.query(
-      'SELECT * FROM schoolT WHERE names = $1',
-      [names],
-    );
-
-  if(check.rows.length > 0){
-    return res.status(401).json('Teacher found 🤦‍♂️🤦‍♂️');
-
-  }
-
-
-    let newUser = await pool.query(
-      'INSERT INTO schoolS (names) VALUES ($1) RETURNING *',
-      [
-      names
-      ],
-    );
-
-    
-    return res.json(newUser.rows[0]);
-  } catch (err) {
-    console.error(err.message);
-    res.status(500).json('Server error');
-  }
-});
 router.post('/verify', authorize, (req, res) => {
   try {
     res.json(true);
