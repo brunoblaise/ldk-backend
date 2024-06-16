@@ -266,6 +266,14 @@ router.get('/courses', async (req, res) => {
   }
 });
 
+router.get('/guess', async (req, res) => {
+  try {
+    const user = await pool.query('SELECT * from  guess');
+    res.json(user.rows);
+  } catch (err) {
+    console.error(err.message);
+  }
+});
 
 
 module.exports = router;
