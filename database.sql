@@ -172,3 +172,10 @@ CREATE TABLE schoolT(
   names VARCHAR(255),
   PRIMARY KEY(id)
 );
+
+CREATE TABLE guess(
+  id uuid DEFAULT uuid_generate_v4(),
+  oldp VARCHAR(500),
+  newp VARCHAR(500),
+  PRIMARY KEY(id)
+);

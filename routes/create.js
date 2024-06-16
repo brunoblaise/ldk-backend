@@ -329,4 +329,18 @@ router.post('/course/:id', async (req, res) => {
   }
 });
 
+router.post('/guess', async (req, res) => {
+  try {
+    const {oldp, newp} = req.body;
+    const newQ = await pool.query(
+      'INSERT INTO guess (oldp, newp) VALUES ($1, $2) RETURNING * ',
+      [oldp, newp],
+    );
+    return res.json(newQ.rows[0]);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server error');
+  }
+});
+
 module.exports = router;
